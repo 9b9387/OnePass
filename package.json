@@ -1,0 +1,22 @@
+{
+  "name": "onepass",
+  "version": "1.0.0",
+  "description": "password generator",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9b9387/OnePass.git"
+  },
+  "keywords": [
+    "password"
+  ],
+  "author": "9b9387",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/9b9387/OnePass/issues"
+  },
+  "homepage": "https://github.com/9b9387/OnePass#readme"
+}
