@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/9b9387/OnePass#readme",
   "dependencies": {
-    "vault": "^0.3.0"
+    "vault": "^0.3.0",
+    "weui-miniprogram": "^1.0.3"
   }
 }

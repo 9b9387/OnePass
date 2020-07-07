@@ -1,4 +1,6 @@
 /**index.wxss**/
+@import '/miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+
 .userinfo {
   display: flex;
   flex-direction: column;
