@@ -1,5 +1,7 @@
 //index.js
 //获取应用实例
+var Vault = require("vault");
+
 const app = getApp()
 
 Page({
@@ -7,8 +9,10 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
+  service: "",
+  passphrase: "",
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
@@ -50,5 +54,22 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  onServiceInput : function(e) {
+    console.log(e.detail.value);
+    this.service = e.detail.value
+  },
+  onPassphraseInput: function(e) {
+    this.passphrase = e.detail.value;
+    
+    console.log(this.passphrase, this.service);
+    var v = new Vault({
+      phrase: this.passphrase,
+      LOWER: 0,
+      UPPER: 0,
+    });
+    console.log(v, v.generate(this.service));
   }
 })
+
+
