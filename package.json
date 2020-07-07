@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/9b9387/OnePass/issues"
   },
-  "homepage": "https://github.com/9b9387/OnePass#readme"
+  "homepage": "https://github.com/9b9387/OnePass#readme",
+  "dependencies": {
+    "vault": "^0.3.0"
+  }
 }
