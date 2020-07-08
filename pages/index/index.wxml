@@ -21,6 +21,11 @@
 						<view class="weui-cell__ft" style="{{actionType == 2 ? '' : 'display: none'}}">
 							<a class="weui-btn weui-btn_default weui-vcode-btn" style="color: #ff0000;" bindtap="onClickDelete">Delete</a>
 						</view>
+						<!-- <view class="weui-cell__ft">
+							<a class="weui-btn_reset weui-btn_icon">
+								<image style="width: 24px; height: 24px;" src="images/round_more_vert_black_36dp.png"></image>
+							</a>
+						</view> -->
 						<view class="weui-cell__ft" style="{{actionType == 3 ? '' : 'display: none'}}">
 							<a class="weui-btn weui-btn_default weui-vcode-btn" style="color: #FFA500;" bindtap="onClickUpdate">Save</a>
 						</view>
@@ -36,12 +41,14 @@
 						</view>
 					</view>
 
-					<!-- <view id="s1ss" class="weui-flex kind-list__item-hd" bindtap="kindToggle">
-						<view class="weui-flex__item">sss{{item.name}}</view>
-						<image class="kind-list__img" src="images/icon_nav_1.png"></image>
-					</view> -->
+					<a class="weui-cell weui-cell_active" bindtap="onClickOptions">
+						<view class="weui-cell__bd">Options</view>
+						<view class="weui-cell__ft">
+							<image style="width: 36px; height: 36px;" src="{{showOptions ? 'images/round_expand_less_black_36dp.png' : 'images/round_expand_more_black_36dp.png'}}"></image>
+						</view>
+					</a>
 
-					<view class="weui-cell weui-cell_active">
+					<view class="weui-cell weui-cell_active" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__hd"><label class="weui-label">Length</label></view>
 						<view class="weui-cell__bd">
 							<picker bindchange="onClickLength" range="{{lengthList}}">
@@ -50,28 +57,28 @@
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch">
+					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Uppercase</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isUpper}}" bindchange="onSwitchUpper"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch">
+					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Lowercase</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isLower}}" bindchange="onSwitchLower"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch">
+					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Number</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isNumber}}" bindchange="onSwitchNumber"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch">
+					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Symbol</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isSymbol}}" bindchange="onSwitchSymbol"></switch>

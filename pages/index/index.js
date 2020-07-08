@@ -11,7 +11,8 @@ Page({
     serviceRange: [],
     serviceLoaded: false,
     config: new PassConfig(),
-    actionType: 0 // 0: none, 1: history 2:delete 3:update 4:save
+    actionType: 0, // 0: none, 1: history 2:delete 3:update 4:save
+    showOptions: false,
   },
 
   passphrase: "",
@@ -119,6 +120,7 @@ Page({
     var service = this.serviceList.list[index];
     var c = new PassConfig();
     c.load(service);
+    c.service = service;
     if(this.config0 == null)
     {
       this.config0 = new PassConfig();
@@ -191,7 +193,12 @@ Page({
     })
     this.refreshView();
   },
-
+  onClickOptions: function(e) {
+    var visible = !this.data.showOptions
+    this.setData({
+      showOptions: visible
+    })
+  },
   updateAction: function()
   {
     var actiontype = 0 // 0: none, 1: history 2:delete 3:update 4:save

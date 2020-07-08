@@ -4,7 +4,7 @@ class PassConfig {
   isUpper= true
   isLower= true
   isNumber= true
-  isSymbol= true
+  isSymbol= false
   equal = obj => {
     return (obj.isUpper == this.isUpper
       && obj.isLower == this.isLower
@@ -56,7 +56,7 @@ class PassConfig {
     this.isUpper = true
     this.isLower = true
     this.isNumber = true
-    this.isSymbol = true
+    this.isSymbol = false
   }
 }
 
