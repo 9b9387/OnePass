@@ -1,6 +1,6 @@
 //index.js
 //获取应用实例
-var Vault = require("vault");
+var Vault = require("../../vault/vault");
 import { PassConfig } from '../../models/passconfig'
 import { ServiceList } from '../../models/servicelist'
 
@@ -62,6 +62,7 @@ Page({
     try {
       this.password = v.generate(this.data.config.service)
     } catch (error) {
+      console.log(error)
     }
 
     this.setData({
