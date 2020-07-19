@@ -8,47 +8,46 @@
 			<view class="weui-cells__group weui-cells__group_form">
 				<view class="weui-cells weui-cells_form">
 
-					<view class="weui-cell weui-cell_active">
-						<view class="weui-cell__hd"><label class="weui-label">Service</label></view>
+					<!-- 服务 -->
+					<view class="weui-cell ">
+						<!-- 标题 -->
+						<view class="weui-cell__hd"><label class="weui-label">服务</label></view>
+						<!-- 输入框 -->
 						<view class="weui-cell__bd">
 							<input class="weui-input" type="text" placeholder="e.g. weibo" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindinput="onServiceInput" />
 						</view>
+						<!-- 历史操作 -->
 						<view class="weui-cell__ft" style="{{actionType == 1 ? '' : 'display: none'}}">
 							<picker bindchange="onClickHistory" range="{{serviceRange}}">
 								<a class="weui-btn weui-btn_default weui-vcode-btn">History</a>
 							</picker>
 						</view>
+						<!-- 删除操作 -->
 						<view class="weui-cell__ft" style="{{actionType == 2 ? '' : 'display: none'}}">
 							<a class="weui-btn weui-btn_default weui-vcode-btn" style="color: #ff0000;" bindtap="onClickDelete">Delete</a>
 						</view>
-						<!-- <view class="weui-cell__ft">
-							<a class="weui-btn_reset weui-btn_icon">
-								<image style="width: 24px; height: 24px;" src="images/round_more_vert_black_36dp.png"></image>
-							</a>
-						</view> -->
+						<!-- 保存操作 -->
 						<view class="weui-cell__ft" style="{{actionType == 3 ? '' : 'display: none'}}">
 							<a class="weui-btn weui-btn_default weui-vcode-btn" style="color: #FFA500;" bindtap="onClickUpdate">Save</a>
 						</view>
-						<!-- <view class="weui-cell__ft" style="{{actionType == 4 ? '' : 'display: none'}}">
-							<a class="weui-btn weui-btn_default weui-vcode-btn">Save</a>
-						</view> -->
 					</view>
 
-					<view class="weui-cell weui-cell_active">
-						<view class="weui-cell__hd"><label class="weui-label">Phrase</label></view>
+					<!-- 密钥 -->
+					<view class="weui-cell ">
+						<view class="weui-cell__hd"><label class="weui-label">密钥</label></view>
 						<view class="weui-cell__bd">
 							<input class="weui-input" type="text" placeholder="e.g. 123456" value="" placeholder-class="weui-input__placeholder" bindinput="onPassphraseInput" />
 						</view>
 					</view>
 
-					<a class="weui-cell weui-cell_active" bindtap="onClickOptions">
+					<a class="weui-cell " bindtap="onClickOptions">
 						<view class="weui-cell__bd">Options</view>
 						<view class="weui-cell__ft">
 							<image style="width: 36px; height: 36px;" src="{{showOptions ? 'images/round_expand_less_black_36dp.png' : 'images/round_expand_more_black_36dp.png'}}"></image>
 						</view>
 					</a>
 
-					<view class="weui-cell weui-cell_active" style="{{showOptions ? '' : 'display: none'}}">
+					<view class="weui-cell " style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__hd"><label class="weui-label">Length</label></view>
 						<view class="weui-cell__bd">
 							<picker bindchange="onClickLength" range="{{lengthList}}">
@@ -57,42 +56,45 @@
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
+					<view class="weui-cell  weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Uppercase</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isUpper}}" bindchange="onSwitchUpper"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
+					<view class="weui-cell  weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Lowercase</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isLower}}" bindchange="onSwitchLower"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
+					<view class="weui-cell  weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Number</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isNumber}}" bindchange="onSwitchNumber"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
+					<view class="weui-cell  weui-cell_switch" style="{{showOptions ? '' : 'display: none'}}">
 						<view class="weui-cell__bd">Symbol</view>
 						<view class="weui-cell__ft">
 							<switch checked="{{config.isSymbol}}" bindchange="onSwitchSymbol"></switch>
 						</view>
 					</view>
 
-					<view class="weui-cell weui-cell_active">
+					<view class="weui-cell ">
 						<view class="weui-cell__bd">
 							<input class="weui-input weui-cell_readonly" disabled value="{{password}}" style="text-align:center;color:var(--weui-BRAND)" />
 						</view>
 					</view>
+					
 				</view>
 			</view>
 		</view>
+		
+		<!-- 复制按钮 -->
 		<view class="weui-form__opr-area">
 			<a class="weui-btn weui-btn_primary" bindtap="onClickCopyPassword">Copy Password</a>
 		</view>

@@ -34,6 +34,8 @@
 	"libVersion": "2.11.3",
 	"appid": "wxec0656add731b2f3",
 	"projectname": "OnePass",
+	"miniprogramRoot": "onepass/",
+	"cloudfunctionRoot": "cloud_functions/",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -41,6 +43,7 @@
 	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {
 		"search": {
 			"current": -1,

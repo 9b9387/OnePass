@@ -1,0 +1,117 @@
+<!--index.wxml-->
+<view class="page" data-weui-theme="{{theme}}">
+	<view class="weui-form">
+		<view class="weui-form__text-area">
+			<h2 class="weui-form__title">OnePass</h2>
+		</view>
+		<view class="weui-form__control-area">
+			<view class="weui-cells__group weui-cells__group_form">
+				<view class="weui-cells weui-cells_form">
+
+					<!-- 服务 -->
+					<view class="weui-cell ">
+						<!-- 标题 -->
+						<view class="weui-cell__hd"><label class="weui-label">服务</label></view>
+						<!-- 输入框 -->
+						<view class="weui-cell__bd">
+							<input class="weui-input" type="text" placeholder="e.g. weibo" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindconfirm="on_ui_service_change" bindinput="on_ui_service_change" />
+						</view>
+
+						<!-- 历史按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showHistoryIcon}}">
+							<picker bindchange="on_ui_select_service" range="{{serviceRange}}">
+								<image src="./images/round_history_black_24dp.png" style="width: 24px; height: 24px;"></image>
+							</picker>
+						</view>
+						<!-- 设置按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showSettingIcon}}">
+							<image src="./images/round_tune_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_setting"></image>
+						</view>
+					</view>
+
+					<view hidden="{{!showOptions}}">
+						<!-- 密码长度 -->
+						<picker bindchange="on_ui_select_length" range="{{lengthList}}">
+							<view class="setting_cell">
+								<view class="setting_cell__hd">
+									<label class="setting_cell__hd">密码长度</label>
+								</view>
+								<view class="setting_cel__ft">
+									<label style="padding-right:20px">{{config.length}}</label>
+								</view>
+							</view>
+						</picker>
+						<!-- 包含字母 -->
+						<view class="setting_cell">
+							<view class="setting_cell__hd">
+								<label class="setting_cell__hd">包含字母</label>
+							</view>
+							<view class="setting_cel__ft">
+								<switch class="setting_cell__switch" disabled="{{readOnly}}" checked="{{config.include_alpha}}" color="{{readOnly ? '#ccc' : '#04BE02'}}" bindchange="on_ui_toggle_alpha"></switch>
+							</view>
+						</view>
+						<!-- 包含数字 -->
+						<view class="setting_cell">
+							<view class="setting_cell__hd">
+								<label class="setting_cell__hd">包含数字</label>
+							</view>
+							<view class="setting_cel__ft">
+								<switch class="setting_cell__switch" disabled="{{readOnly}}" checked="{{config.include_number}}" color="{{readOnly ? '#ccc' : '#04BE02'}}" bindchange="on_ui_toggle_number"></switch>
+							</view>
+						</view>
+						<!-- 包含符号 -->
+						<view class="setting_cell">
+							<view class="setting_cell__hd">
+								<label class="setting_cell__hd">包含符号</label>
+							</view>
+							<view class="setting_cel__ft">
+								<switch class="setting_cell__switch" disabled="{{readOnly}}" checked="{{config.include_symbol}}" color="{{readOnly ? '#ccc' : '#04BE02'}}" bindchange="on_ui_toggle_symbol"></switch>
+							</view>
+						</view>
+						<!-- 删除按钮 -->
+						<view class="setting_cell" hidden="{{!readOnly || showDeleteConfirm }}">
+							<view class="setting_cell__hd">
+							</view>
+
+							<view class="setting_cel__ft">
+								<a class="weui-btn weui-btn_mini weui-btn_warn" bindtap="on_ui_click_delete">删除 {{config.service}} </a>
+							</view>
+						</view>
+
+						<!-- 删除确认 -->
+						<view class="setting_cell" hidden="{{!showDeleteConfirm}}">
+							<view class="setting_cell__hd">
+								<label style="color:var(--weui-RED); font-weight:700">确认删除？</label>
+							</view>
+
+							<view class="setting_cel__ft">
+								<image src="./images/round_check_black_24dp.png" style="width: 24px; height: 24px; margin-right:16px;" bindtap="on_ui_confirm_delete"></image>
+								<image src="./images/round_close_black_24dp.png" style="width: 24px; height: 24px; margin-right:8px" bindtap="on_ui_cancel_delete"></image>
+							</view>
+						</view>
+					</view>
+
+					<!-- 密钥 -->
+					<view class="weui-cell ">
+						<view class="weui-cell__hd"><label class="weui-label">密钥</label></view>
+						<view class="weui-cell__bd">
+							<input class="weui-input" type="text" placeholder="e.g. 123456" value="" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" />
+						</view>
+					</view>
+
+					<view class="weui-cell ">
+						<view class="weui-cell__bd">
+							<input class="weui-input weui-cell_readonly" disabled value="{{password}}" style="text-align:center;color:var(--weui-BRAND)" />
+						</view>
+					</view>
+
+				</view>
+			</view>
+		</view>
+
+		<!-- 复制按钮 -->
+		<view class="weui-form__opr-area">
+			<a class="weui-btn weui-btn_primary" bindtap="on_ui_click_copy">复制密码</a>
+		</view>
+	</view>
+</view>

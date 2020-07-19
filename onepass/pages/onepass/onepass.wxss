@@ -1,0 +1,33 @@
+/**index.wxss**/
+@import '/miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+
+.setting_cell
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    margin: 0;
+    padding: 4px 32px 4px 78px;
+    color: #888;
+}
+
+.setting_cell__hd
+{
+  display: flex;
+}
+
+.setting_cell__ft
+{
+  display: flex;
+  padding-right: 0px;
+  text-align: center;
+  align-items: center;
+}
+
+.setting_cell__switch
+{
+  transform: scale(0.8);
+}

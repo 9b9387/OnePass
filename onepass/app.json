@@ -1,11 +1,12 @@
 {
   "pages":[
-    "pages/index/index"
+    "pages/onepass/onepass",
+    "pages/test/test"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle":"black"
   },
   "style": "v2",
