@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="page" data-weui-theme="{{theme}}">
+
 	<view class="weui-form">
 		<view class="weui-form__text-area">
 			<h2 class="weui-form__title">OnePass</h2>
@@ -11,10 +12,10 @@
 					<!-- 服务 -->
 					<view class="weui-cell ">
 						<!-- 标题 -->
-						<view class="weui-cell__hd"><label class="weui-label">服务</label></view>
+						<view class="weui-cell__hd"><label class="weui-label" style="width: 45px;">条目</label></view>
 						<!-- 输入框 -->
 						<view class="weui-cell__bd">
-							<input class="weui-input" type="text" placeholder="e.g. weibo" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindconfirm="on_ui_service_change" bindinput="on_ui_service_change" />
+							<input class="weui-input" type="text" placeholder="输入条目 e.g. QQ" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindconfirm="on_ui_service_change" bindinput="on_ui_service_change" bindblur="on_ui_service_change"/>
 						</view>
 
 						<!-- 历史按钮 -->
@@ -31,7 +32,7 @@
 
 					<view hidden="{{!showOptions}}">
 						<!-- 密码长度 -->
-						<picker bindchange="on_ui_select_length" range="{{lengthList}}">
+						<picker bindchange="on_ui_select_length" range="{{lengthList}}" disabled="{{readOnly}}">
 							<view class="setting_cell">
 								<view class="setting_cell__hd">
 									<label class="setting_cell__hd">密码长度</label>
@@ -74,31 +75,49 @@
 							</view>
 
 							<view class="setting_cel__ft">
-								<a class="weui-btn weui-btn_mini weui-btn_warn" bindtap="on_ui_click_delete">删除 {{config.service}} </a>
+								<a class="weui-btn weui-btn_mini weui-btn_warn" style="vertical-align: middle;" bindtap="on_ui_click_delete">
+									删除 {{config.service}} 
+								</a>
 							</view>
 						</view>
-
+						
 						<!-- 删除确认 -->
-						<view class="setting_cell" hidden="{{!showDeleteConfirm}}">
+						<view class="setting_cell" hidden="{{!showDeleteConfirm}}" >
 							<view class="setting_cell__hd">
-								<label style="color:var(--weui-RED); font-weight:700">确认删除？</label>
+								<label style="color:var(--weui-RED); font-weight:700">确认删除条目？</label>
 							</view>
 
 							<view class="setting_cel__ft">
-								<image src="./images/round_check_black_24dp.png" style="width: 24px; height: 24px; margin-right:16px;" bindtap="on_ui_confirm_delete"></image>
-								<image src="./images/round_close_black_24dp.png" style="width: 24px; height: 24px; margin-right:8px" bindtap="on_ui_cancel_delete"></image>
+								<a class="weui-btn_mini weui-btn_default" style="vertical-align: middle; margin-right:10px;" bindtap="on_ui_confirm_delete">
+									<image src="./images/round_check_black_24dp.png" style="width: 24px; height: 24px; vertical-align: middle;" ></image>
+								</a>
+								<a class="weui-btn_mini weui-btn_default" style="vertical-align: middle;" bindtap="on_ui_cancel_delete">
+									<image src="./images/round_close_black_24dp.png" style="width: 24px; height: 24px; vertical-align: middle; margin-top: 0px;" ></image>
+								</a>
 							</view>
 						</view>
 					</view>
 
 					<!-- 密钥 -->
 					<view class="weui-cell ">
-						<view class="weui-cell__hd"><label class="weui-label">密钥</label></view>
+						<view class="weui-cell__hd"><label class="weui-label" style="width: 45px;">密钥</label></view>
 						<view class="weui-cell__bd">
-							<input class="weui-input" type="text" placeholder="e.g. 123456" value="" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" />
+							<input class="weui-input" type="text" placeholder="输入密钥 e.g. 1234" value="{{passphrase}}" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" bindblur="on_ui_passphrase_change"/>
+						</view>
+						<!-- 保存按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showFigerprintSaveIcon}}">
+							<image src="./images/outline_save_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_save_figerprint"></image>
+						</view>
+						<!-- 指纹按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showFigerprintIcon}}">
+							<image src="./images/outline_fingerprint_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_figerprint"></image>
+						</view>
+						<!-- 删除按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showFigerprintDeleteIcon}}">
+							<image src="./images/round_delete_forever_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_delete_figerprint"></image>
 						</view>
 					</view>
-
+				
 					<view class="weui-cell ">
 						<view class="weui-cell__bd">
 							<input class="weui-input weui-cell_readonly" disabled value="{{password}}" style="text-align:center;color:var(--weui-BRAND)" />
@@ -110,8 +129,14 @@
 		</view>
 
 		<!-- 复制按钮 -->
-		<view class="weui-form__opr-area">
+		<view class="weui-form__opr-area" hidden="{{!showCopyButton}}">
 			<a class="weui-btn weui-btn_primary" bindtap="on_ui_click_copy">复制密码</a>
 		</view>
 	</view>
+
+	<view class="weui-footer weui-footer_fixed-bottom">
+		<view class="weui-footer__text">©2020 Vina</view>
+	</view>
+
+	<view wx:if="{{topTips}}" class="weui-toptips weui-toptips_warn">{{tips}}</view>
 </view>

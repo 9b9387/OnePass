@@ -24,8 +24,4 @@ App({
       menus: ['shareAppMessage', 'shareTimeline']
     })
   },
-
-  globalData: {
-    userInfo: null
-  }
 })

@@ -1,7 +1,6 @@
 {
   "pages":[
-    "pages/onepass/onepass",
-    "pages/test/test"
+    "pages/onepass/onepass"
   ],
   "window":{
     "backgroundTextStyle":"light",

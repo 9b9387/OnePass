@@ -90,6 +90,21 @@ class DataManager {
             }
         })
     }
+
+    save_passphrase(passphrase)
+    {
+        wx.setStorageSync('passphrase', passphrase)
+    }
+
+    remove_passphrase()
+    {
+        wx.removeStorageSync('passphrase')
+    }
+
+    load_passphrase()
+    {
+        return wx.getStorageSync('passphrase')
+    }
 }
 
 module.exports = {
