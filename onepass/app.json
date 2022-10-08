@@ -1,12 +1,13 @@
 {
-  "pages":[
-    "pages/onepass/onepass"
+  "pages": [
+    "pages/onepass/onepass",
+    "pages/import_page/import_page"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

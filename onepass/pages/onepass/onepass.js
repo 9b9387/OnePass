@@ -6,9 +6,9 @@ import {
 import {
     DataManager
 } from '../../models/data_manager'
-import {
-    SERVICE_STATUS
-} from '../../models/const'
+// import {
+//     SERVICE_STATUS
+// } from '../../models/const'
 
 Page({
     data: {
@@ -38,13 +38,13 @@ Page({
     dbm: new DataManager(),
 
     onLoad: function () {
-        this.load_service_list();
-        this.check_figerprint()
-        this.setData({
-            config: this.current_config
-        })
+        //this.load_service_list();
+        //this.check_figerprint()
+        // this.setData({
+        //     config: this.current_config
+        // })
         // this.dbm.save_passphrase("323232")
-        this.update_passphrase_icon("")
+        // this.update_passphrase_icon("")
     },
 
     onShareAppMessage: function(res)
@@ -223,6 +223,13 @@ Page({
             }
         })
     },
+    on_ui_click_import: function(e)
+    {
+      wx.navigateTo({
+        url: '../import_page/import_page',
+      })
+    },
+    
 
     ///////////////////////////////////////////////////
     // Logic
@@ -335,45 +342,45 @@ Page({
     update_setting(service) {
         this.current_config.service = service;
 
-        if (this.service_list.length == 0) {
-            if (this.check_service_name(service) != SERVICE_STATUS.EMPTY) {
-                this.setData({
-                    showSettingIcon: true,
-                    showHistoryIcon: false,
-                    config: this.current_config,
-                    readOnly: false,
-                });
-            } else {
-                this.setData({
-                    showSettingIcon: false,
-                    showHistoryIcon: false,
-                    showOptions: false,
-                    readOnly: false,
-                });
-            }
-        } else {
-            if (this.check_service_name(service) == SERVICE_STATUS.EMPTY) {
-                this.original_config.reset();
+        // if (this.service_list.length == 0) {
+        //     if (this.check_service_name(service) != SERVICE_STATUS.EMPTY) {
+        //         this.setData({
+        //             showSettingIcon: true,
+        //             showHistoryIcon: false,
+        //             config: this.current_config,
+        //             readOnly: false,
+        //         });
+        //     } else {
+        //         this.setData({
+        //             showSettingIcon: false,
+        //             showHistoryIcon: false,
+        //             showOptions: false,
+        //             readOnly: false,
+        //         });
+        //     }
+        // } else {
+        //     if (this.check_service_name(service) == SERVICE_STATUS.EMPTY) {
+        //         this.original_config.reset();
 
-                this.setData({
-                    showSettingIcon: false,
-                    showHistoryIcon: true,
-                    showOptions: false,
-                    readOnly: false,
-                    showDeleteConfirm: false
-                });
-            } else if (this.check_service_name(service) == SERVICE_STATUS.MATCH) {
-                this.load_service(service);
-            } else if (this.check_service_name(service) == SERVICE_STATUS.UNMATCH) {
-                this.setData({
-                    showSettingIcon: true,
-                    showHistoryIcon: false,
-                    config: this.current_config,
-                    readOnly: false,
-                    showDeleteConfirm: false
-                });
-            }
-        }
+        //         this.setData({
+        //             showSettingIcon: false,
+        //             showHistoryIcon: true,
+        //             showOptions: false,
+        //             readOnly: false,
+        //             showDeleteConfirm: false
+        //         });
+        //     } else if (this.check_service_name(service) == SERVICE_STATUS.MATCH) {
+        //         this.load_service(service);
+        //     } else if (this.check_service_name(service) == SERVICE_STATUS.UNMATCH) {
+        //         this.setData({
+        //             showSettingIcon: true,
+        //             showHistoryIcon: false,
+        //             config: this.current_config,
+        //             readOnly: false,
+        //             showDeleteConfirm: false
+        //         });
+        //     }
+        // }
     },
 
     update_passphrase_icon(passphrase) {
@@ -444,9 +451,9 @@ Page({
     },
 
     check_service_name(service_name) {
-        if (service_name == null || service_name == "") {
-            return SERVICE_STATUS.EMPTY;
-        }
+        // if (service_name == null || service_name == "") {
+        //     return SERVICE_STATUS.EMPTY;
+        // }
 
         let isMatch = false;
         for (let index = 0; index < this.service_list.length; index++) {
@@ -457,11 +464,11 @@ Page({
             }
         }
 
-        if (isMatch) {
-            return SERVICE_STATUS.MATCH;
-        } else {
-            return SERVICE_STATUS.UNMATCH;
-        }
+        // if (isMatch) {
+        //     return SERVICE_STATUS.MATCH;
+        // } else {
+        //     return SERVICE_STATUS.UNMATCH;
+        // }
     },
 
     check_figerprint()

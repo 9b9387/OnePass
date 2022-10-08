@@ -1,3 +1,6 @@
+/**
+ * 密码配置的数据类型
+ */
 class OnePassConfig {
 
     constructor()
@@ -5,6 +8,9 @@ class OnePassConfig {
         this.reset();
     }
 
+    /**
+     * 重置
+     */
     reset()
     {
         this.service = "";
@@ -14,6 +20,10 @@ class OnePassConfig {
         this.include_symbol = true;
     }
 
+    /**
+     * 比较数据是否一致
+     * @param {OnePassConfig} obj 
+     */
     equal(obj) 
     {
         return (obj.service == this.service
@@ -24,6 +34,10 @@ class OnePassConfig {
             true : false;
     }
 
+    /**
+     * 从其他对象复制数据
+     * @param {OnePassConfig}} obj 
+     */
     clone(obj) 
     {
         this.service = obj.service

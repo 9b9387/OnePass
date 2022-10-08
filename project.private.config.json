@@ -1,0 +1,7 @@
+{
+  "projectname": "OnePass",
+  "setting": {
+    "compileHotReLoad": true
+  },
+  "libVersion": "2.26.2"
+}

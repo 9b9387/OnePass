@@ -1,0 +1,22 @@
+<!--pages/import_page.wxml-->
+<div class="page" data-weui-theme="{{theme}}">
+  <div class="weui-form">
+    <div class="weui-form__text-area">
+      <div class="weui-form__desc">导入配置数据</div>
+    </div>
+    <div class="weui-form__control-area">
+      <div class="weui-cells__group weui-cells__group_form">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell weui-cell_active">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="weui-form__opr-area">
+      <a role="button" class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+    </div>
+  </div>
+</div>

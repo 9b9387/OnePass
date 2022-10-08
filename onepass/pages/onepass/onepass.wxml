@@ -2,6 +2,9 @@
 <view class="page" data-weui-theme="{{theme}}">
 
 	<view class="weui-form">
+    <view class="weui-cell__ft">
+      <image src="./images/round_tune_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_import"></image>
+    </view>
 		<view class="weui-form__text-area">
 			<h2 class="weui-form__title">OnePass</h2>
 		</view>
@@ -135,7 +138,7 @@
 	</view>
 
 	<view class="weui-footer weui-footer_fixed-bottom">
-		<view class="weui-footer__text">©2020 Vina</view>
+		<view class="weui-footer__text">©2023 9b9387</view>
 	</view>
 
 	<view wx:if="{{topTips}}" class="weui-toptips weui-toptips_warn">{{tips}}</view>

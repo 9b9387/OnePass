@@ -38,9 +38,6 @@ exports.main = async (event, context) => {
                 include_symbol: config.include_symbol,
             }
         })
-
-        console.log(res)
-
         return {
             config: config,
             errCode: 0,
