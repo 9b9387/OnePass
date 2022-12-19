@@ -46,6 +46,15 @@ class OnePassConfig {
         this.include_number = obj.include_number
         this.include_symbol = obj.include_symbol
     }
+
+    from(key, obj)
+    {
+      this.service = key
+      this.length = obj.length
+      this.include_alpha = obj.lower || obj.upper
+      this.include_number = obj.number == 1
+      this.include_symbol = obj.symbol || obj.dash
+    }
 }
 
 module.exports = {

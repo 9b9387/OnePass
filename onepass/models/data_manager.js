@@ -1,112 +1,67 @@
 class DataManager {
-    constructor() 
+    static load_service_list(success, fail)
     {
-      // wx.getStorage({
-      //   key: "config",
-      //   success: (res) => {
-      //     console.log(res.data);
-      //   }
-      // })
+      wx.getStorageInfo({
+        success: res => {
+          var keys = new Array();
+          res.keys.forEach(key => {
+            if(key.startsWith("service_name_"))
+            {
+              keys.push(key.replace("service_name_", ""))
+            }
+          });
+          success(keys);
+        },
+        fail: fail
+      })
     }
 
-    load_service_list(success, fail)
+    static save_service(config, success, fail)
     {
-        // wx.cloud.callFunction({
-        //     name: 'load_service_list',
-        //     success: res => {
-        //         console.log("load_service_list success:", res);
-        //         success(res);
-        //     },
-        //     fail: err => {
-        //         console.error(err);
-        //         fail(err);
-        //     }
-        // })
+      console.log(JSON.stringify(config))
+      let prefix = "service_name_";
+      wx.setStorage({
+        key: prefix.concat(config.service),
+        data: JSON.stringify(config),
+        success: success,
+        fail: fail
+      });
     }
 
-    save_service(config, success, fail)
+    static load_service(key, success, fail)
     {
-        // wx.cloud.callFunction({
-        //     name: 'save_service',
-        //     data: {
-        //         config: config,
-        //     },
-        //     success: res => {
-        //         console.log("save_service success:", res);
-        //         if(success != null)
-        //         {
-        //             success(res);
-        //         }
-        //     },
-        //     fail: err => {
-        //         console.error(err)
-        //         if(fail != null)
-        //         {
-        //             fail(err);
-        //         }
-        //     }
-        // })
+      let prefix = "service_name_";
+      let service_name = prefix.concat(key);
+      console.log("load", service_name)
+      wx.getStorage({
+        key: service_name,
+        success: success,
+        fail: fail
+      })
     }
 
-    load_service(service, success, fail)
+    static remove_service(key, success, fail)
     {
-        // wx.cloud.callFunction({
-        //     name: 'load_service',
-        //     data: {
-        //         service: service,
-        //     },
-        //     success: res => {
-        //         console.log("load_service success:", res);
-        //         if(success != null)
-        //         {
-        //             success(res);
-        //         }
-        //     },
-        //     fail: err => {
-        //         console.error(err)
-        //         if(fail != null)
-        //         {
-        //             fail(err);
-        //         }
-        //     }
-        // })
+      let prefix = "service_name_";
+      let service_name = prefix.concat(key);
+      wx.removeStorage({
+        key: service_name,
+        success: success,
+        fail: fail
+      })
     }
 
-    remove_service(service, success, fail)
-    {
-        // wx.cloud.callFunction({
-        //     name: 'remove_service',
-        //     data: {
-        //         service: service,
-        //     },
-        //     success: res => {
-        //         console.log("remove_service success:", res);
-        //         if(success != null)
-        //         {
-        //             success(res);
-        //         }
-        //     },
-        //     fail: err => {
-        //         console.error(err)
-        //         if(fail != null)
-        //         {
-        //             fail(err);
-        //         }
-        //     }
-        // })
-    }
-
-    save_passphrase(passphrase)
+    static save_passphrase(passphrase)
     {
         wx.setStorageSync('passphrase', passphrase)
     }
 
-    remove_passphrase()
+    static remove_passphrase()
     {
         wx.removeStorageSync('passphrase')
     }
 
-    load_passphrase()
+    static load_passphrase()
     {
         return wx.getStorageSync('passphrase')
     }

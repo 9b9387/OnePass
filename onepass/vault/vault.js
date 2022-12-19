@@ -185,7 +185,6 @@ Vault.Stream.prototype._shift = function(base, k) {
   else return list.splice(0,k);
 };
 
-
-if (typeof module === 'object')
-  module.exports = Vault;
-
+module.exports = {
+  Vault: Vault
+}

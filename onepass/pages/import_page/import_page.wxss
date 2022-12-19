@@ -1,2 +1,8 @@
 /* pages/import_page.wxss */
 @import '/miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+
+.weui-toptips
+{
+  display:block;
+  background-color:var(--weui-TEXTGREEN)
+}

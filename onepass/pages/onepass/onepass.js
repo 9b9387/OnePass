@@ -1,20 +1,13 @@
 //onepass.js
-import Vault from '../../vault/vault'
-import {
-    OnePassConfig
-} from '../../models/pass_config'
-import {
-    DataManager
-} from '../../models/data_manager'
-// import {
-//     SERVICE_STATUS
-// } from '../../models/const'
-
+import { Vault } from '../../vault/vault'
+import { OnePassConfig } from '../../models/pass_config'
+import { DataManager } from '../../models/data_manager'
+import { SERVICE_STATUS } from "../../models/const";
 Page({
     data: {
         passphrase: "",
         password: "",
-        lengthList: [6, 8, 10, 12, 16, 20, 24, 32],
+        lengthList: [6, 8, 16, 24, 32, 64],
         serviceRange: [],
         config: {},
         showOptions: false,
@@ -35,15 +28,13 @@ Page({
     service_list: [],
     original_config: new OnePassConfig(),
     current_config: new OnePassConfig(),
-    dbm: new DataManager(),
 
     onLoad: function () {
-        //this.load_service_list();
-        //this.check_figerprint()
-        // this.setData({
-        //     config: this.current_config
-        // })
-        // this.dbm.save_passphrase("323232")
+        this.load_service_list()
+        this.check_figerprint()
+        this.setData({
+            config: this.current_config
+        })
         // this.update_passphrase_icon("")
     },
 
@@ -72,7 +63,7 @@ Page({
         var index = e.detail.value;
         var config = this.service_list[index];
 
-        this.load_service(config.service);
+        this.load_service(config);
     },
 
     on_ui_service_change(e) {
@@ -168,7 +159,7 @@ Page({
 
     on_ui_click_save_figerprint: function(e)
     {
-        this.dbm.save_passphrase(this.passphrase)
+       DataManager.save_passphrase(this.passphrase)
         this.setData({
             passphrase: this.passphrase,
             showFigerprintDeleteIcon: true,
@@ -186,7 +177,7 @@ Page({
             challenge: '123456',
             authContent: '使用指纹读取本地密钥',
             success(res) {
-                var p = self.dbm.load_passphrase()
+                var p = DataManager.load_passphrase()
                 self.passphrase = p;
                 self.update_passphrase_icon(self.passphrase);
                 self.setData({
@@ -209,7 +200,7 @@ Page({
             challenge: '123456',
             authContent: '确认删除本地密钥？',
             success(res) {
-                self.dbm.remove_passphrase()
+                DataManager.remove_passphrase()
                 self.passphrase = "";
                 self.setData({
                     passphrase: self.passphrase
@@ -235,16 +226,15 @@ Page({
     // Logic
     ///////////////////////////////////////////////////
     load_service_list() {
-        this.dbm.load_service_list((res) => {
-            this.service_list = res.result.data;
-            if (res.result.data.length == 0) {
+        DataManager.load_service_list((keys) => {
+            this.service_list = keys;
+            if (keys.length == 0) {
                 this.setData({
                     showHistoryIcon: false,
                     showSettingIcon: false,
                 })
                 return;
             }
-    
             this.update_servce_list();
             this.setData({
                 showHistoryIcon: true,
@@ -264,51 +254,44 @@ Page({
     },
 
     save_service(config) {
-        this.dbm.save_service(config, (res) => {
-            if (res.result.errCode != 0) {
-                console.log("save_service error.")
-                return;
-            }
-            var c = res.result.config;
-            this.original_config.clone(c);
-
+      console.log("save service:", config);
+      DataManager.save_service(config, () => {
+            this.original_config.clone(config);
             this.service_list.push({
-                service: c.service
+                service: config.service
             })
             this.update_servce_list();
-            this.update_setting(c.service);
+            this.update_setting(config.service);
             this.show_tips("配置已保存");
         })
     },
 
-    load_service(service) {
-        this.dbm.load_service(service, (res) => {
-            console.log(res);
-            var data = res.result.data;
-            if (data.length > 0) {
-                var config = data[0];
+    load_service(key) {
+        DataManager.load_service(key, (res) => {
+          console.log("load:", res.data);
+          var config = JSON.parse(res.data);
 
-                this.original_config.clone(config)
-                this.current_config.clone(config)
+          this.original_config.from(key, config)
+          this.current_config.from(key, config)
 
-                this.setData({
-                    config: this.original_config,
-                    showSettingIcon: true,
-                    showHistoryIcon: false,
-                    readOnly: true,
-                })
+          this.setData({
+              config: this.original_config,
+              showSettingIcon: true,
+              showHistoryIcon: false,
+              readOnly: true,
+          })
 
-                this.generatePassword();
-            }
+          this.generatePassword();
         })
     },
 
     remove_service(service) {
-        this.dbm.remove_service(service, (res) => {
+      console.log(service);
+        DataManager.remove_service(service, (res) => {
             this.current_config.reset();
             this.original_config.reset();
             var index = this.service_list.findIndex((item) => {
-                return item.service == service;
+                return item == service;
             })
             if (index > -1) {
                 this.service_list.splice(index, 1);
@@ -321,7 +304,9 @@ Page({
                 readOnly: false,
                 config: this.current_config,
                 showDeleteConfirm: false,
-                passphrase: this.passphrase
+                passphrase: this.passphrase,
+                showHistoryIcon: true,
+                showSettingIcon: false
             })
             this.update_passphrase_icon(this.passphrase)
             this.generatePassword();
@@ -330,9 +315,7 @@ Page({
     },
 
     update_servce_list() {
-        var service_range = this.service_list.map((item) => {
-            return item.service;
-        })
+        var service_range = this.service_list;
 
         this.setData({
             serviceRange: service_range,
@@ -342,45 +325,51 @@ Page({
     update_setting(service) {
         this.current_config.service = service;
 
-        // if (this.service_list.length == 0) {
-        //     if (this.check_service_name(service) != SERVICE_STATUS.EMPTY) {
-        //         this.setData({
-        //             showSettingIcon: true,
-        //             showHistoryIcon: false,
-        //             config: this.current_config,
-        //             readOnly: false,
-        //         });
-        //     } else {
-        //         this.setData({
-        //             showSettingIcon: false,
-        //             showHistoryIcon: false,
-        //             showOptions: false,
-        //             readOnly: false,
-        //         });
-        //     }
-        // } else {
-        //     if (this.check_service_name(service) == SERVICE_STATUS.EMPTY) {
-        //         this.original_config.reset();
+        // 本地数据是空时
+        if (this.service_list.length == 0) {
+            if (this.check_service_name(service) != SERVICE_STATUS.EMPTY) {
+                this.setData({
+                    showSettingIcon: true,
+                    showHistoryIcon: false,
+                    config: this.current_config,
+                    readOnly: false,
+                });
+            } 
+            else {
+                this.setData({
+                    showSettingIcon: false,
+                    showHistoryIcon: false,
+                    showOptions: false,
+                    readOnly: false,
+                });
+            }
+        }
+        // 本地数据不为空时 
+        else {
+            if (this.check_service_name(service) == SERVICE_STATUS.EMPTY) {
+                this.original_config.reset();
 
-        //         this.setData({
-        //             showSettingIcon: false,
-        //             showHistoryIcon: true,
-        //             showOptions: false,
-        //             readOnly: false,
-        //             showDeleteConfirm: false
-        //         });
-        //     } else if (this.check_service_name(service) == SERVICE_STATUS.MATCH) {
-        //         this.load_service(service);
-        //     } else if (this.check_service_name(service) == SERVICE_STATUS.UNMATCH) {
-        //         this.setData({
-        //             showSettingIcon: true,
-        //             showHistoryIcon: false,
-        //             config: this.current_config,
-        //             readOnly: false,
-        //             showDeleteConfirm: false
-        //         });
-        //     }
-        // }
+                this.setData({
+                    showSettingIcon: false,
+                    showHistoryIcon: true,
+                    showOptions: false,
+                    readOnly: false,
+                    showDeleteConfirm: false
+                });
+            } 
+            else if (this.check_service_name(service) == SERVICE_STATUS.MATCH) {
+                this.load_service(service);
+            } 
+            else if (this.check_service_name(service) == SERVICE_STATUS.UNMATCH) {
+                this.setData({
+                    showSettingIcon: true,
+                    showHistoryIcon: false,
+                    config: this.current_config,
+                    readOnly: false,
+                    showDeleteConfirm: false
+                });
+            }
+        }
     },
 
     update_passphrase_icon(passphrase) {
@@ -393,7 +382,7 @@ Page({
             })
             return;
         }
-        var p = this.dbm.load_passphrase()
+        var p = DataManager.load_passphrase()
 
         // 有本地记录
         if(p != null && p != "")
@@ -451,24 +440,24 @@ Page({
     },
 
     check_service_name(service_name) {
-        // if (service_name == null || service_name == "") {
-        //     return SERVICE_STATUS.EMPTY;
-        // }
+        if (service_name == null || service_name == "") {
+            return SERVICE_STATUS.EMPTY;
+        }
 
         let isMatch = false;
         for (let index = 0; index < this.service_list.length; index++) {
             const element = this.service_list[index];
-            if (service_name == element.service) {
+            if (service_name == element) {
                 isMatch = true;
                 break;
             }
         }
 
-        // if (isMatch) {
-        //     return SERVICE_STATUS.MATCH;
-        // } else {
-        //     return SERVICE_STATUS.UNMATCH;
-        // }
+        if (isMatch) {
+            return SERVICE_STATUS.MATCH;
+        } else {
+            return SERVICE_STATUS.UNMATCH;
+        }
     },
 
     check_figerprint()
@@ -534,6 +523,5 @@ Page({
         } catch (error) {
             console.log(error)
         }
-
     },
 })
