@@ -17,7 +17,7 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad(options) {
-    this.setData({config_json: "test"})
+    this.setData({config_json: ""})
 
     DataManager.load_service_list((keys)=>{
       console.log(keys);

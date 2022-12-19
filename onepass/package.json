@@ -21,6 +21,6 @@
   "homepage": "https://github.com/9b9387/OnePass#readme",
   "dependencies": {
     "crypto-js": "^4.0.0",
-    "weui-miniprogram": "^1.0.3"
+    "weui-miniprogram": "^2.5.14"
   }
 }

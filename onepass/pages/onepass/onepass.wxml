@@ -2,12 +2,13 @@
 <view class="page" data-weui-theme="{{theme}}">
 
 	<view class="weui-form">
-    <view class="weui-cell__ft">
-      <image src="./images/round_tune_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_import"></image>
-    </view>
 		<view class="weui-form__text-area">
-			<h2 class="weui-form__title">OnePass</h2>
+			<h2 class="weui-form__title" bindtap="on_ui_click_title">OnePass</h2>
+      <view class="weui-cell__ft" hidden="{{!showImportIcon}}" >
+        <image src="./images/round_import_export_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_import"></image>
+      </view>
 		</view>
+
 		<view class="weui-form__control-area">
 			<view class="weui-cells__group weui-cells__group_form">
 				<view class="weui-cells weui-cells_form">
@@ -18,7 +19,7 @@
 						<view class="weui-cell__hd"><label class="weui-label" style="width: 45px;">条目</label></view>
 						<!-- 输入框 -->
 						<view class="weui-cell__bd">
-							<input class="weui-input" type="text" placeholder="输入条目 e.g. QQ" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindconfirm="on_ui_service_change" bindinput="on_ui_service_change" bindblur="on_ui_service_change"/>
+							<input class="weui-input" type="text" placeholder="" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindconfirm="on_ui_service_change" bindinput="on_ui_service_change" bindblur="on_ui_service_change"/>
 						</view>
 
 						<!-- 历史按钮 -->
@@ -105,7 +106,7 @@
 					<view class="weui-cell ">
 						<view class="weui-cell__hd"><label class="weui-label" style="width: 45px;">密钥</label></view>
 						<view class="weui-cell__bd">
-							<input class="weui-input" type="text" placeholder="输入密钥 e.g. 1234" value="{{passphrase}}" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" bindblur="on_ui_passphrase_change"/>
+							<input class="weui-input" type="text" placeholder="" value="{{passphrase}}" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" bindblur="on_ui_passphrase_change"/>
 						</view>
 						<!-- 保存按钮 -->
 						<view class="weui-cell__ft" hidden="{{!showFigerprintSaveIcon}}">

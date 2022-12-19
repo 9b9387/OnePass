@@ -2,7 +2,7 @@
 <view class="page" data-weui-theme="{{theme}}">
   <view class="weui-form">
     <view class="weui-form__text-area">
-      <view class="weui-form__desc">导入配置数据</view>
+      <view class="weui-form__title">导入配置数据</view>
     </view>
     <form bindsubmit="on_ui_submit">
     <view class="weui-form__control-area">
@@ -18,7 +18,7 @@
       </view>
     </view>
     <view class="weui-form__opr-area">
-      <button class="weui-btn weui-btn_primary" form-type="submit">确定</button>
+      <button class="weui-btn weui-btn_primary" form-type="submit">导入</button>
     </view>
     </form>
   </view>

@@ -19,6 +19,7 @@ Page({
         showFigerprintIcon: false,
         showFigerprintDeleteIcon: false,
         showCopyButton: false,
+        showImportIcon: false,
         topTips: false,
         tips: "",
     },
@@ -26,8 +27,8 @@ Page({
     supportFigerprint: false,
     passphrase: "",
     service_list: [],
-    original_config: new OnePassConfig(),
-    current_config: new OnePassConfig(),
+    original_config: null,
+    current_config: null,
 
     onLoad: function () {
         this.load_service_list()
@@ -35,7 +36,10 @@ Page({
         this.setData({
             config: this.current_config
         })
-        // this.update_passphrase_icon("")
+        this.update_passphrase_icon("")
+
+        this.original_config = new OnePassConfig()
+        this.current_config = new OnePassConfig()
     },
 
     onShareAppMessage: function(res)
@@ -59,6 +63,13 @@ Page({
     ///////////////////////////////////////////////////
     // UI Event
     ///////////////////////////////////////////////////
+
+    on_ui_click_title(e) {
+      this.setData({
+        showImportIcon: !this.data.showImportIcon,
+      })
+    },
+
     on_ui_select_service(e) {
         var index = e.detail.value;
         var config = this.service_list[index];
@@ -268,11 +279,10 @@ Page({
 
     load_service(key) {
         DataManager.load_service(key, (res) => {
-          console.log("load:", res.data);
           var config = JSON.parse(res.data);
 
-          this.original_config.from(key, config)
-          this.current_config.from(key, config)
+          this.original_config.clone(config)
+          this.current_config.clone(config)
 
           this.setData({
               config: this.original_config,
@@ -286,7 +296,6 @@ Page({
     },
 
     remove_service(service) {
-      console.log(service);
         DataManager.remove_service(service, (res) => {
             this.current_config.reset();
             this.original_config.reset();

@@ -1,54 +1,53 @@
 class DataManager {
+
+    static config_prefix = "service_name_"
+
     static load_service_list(success, fail)
     {
-      wx.getStorageInfo({
-        success: res => {
-          var keys = new Array();
-          res.keys.forEach(key => {
-            if(key.startsWith("service_name_"))
-            {
-              keys.push(key.replace("service_name_", ""))
-            }
-          });
-          success(keys);
-        },
-        fail: fail
-      })
+        wx.getStorageInfo({
+            success: res => {
+                var keys = new Array();
+                res.keys.forEach(key => {
+                    if(key.startsWith(this.config_prefix))
+                    {
+                        keys.push(key.replace(this.config_prefix, ""))
+                    }
+                });
+                
+                success(keys);
+            },
+            fail: fail
+        })
     }
 
     static save_service(config, success, fail)
     {
-      console.log(JSON.stringify(config))
-      let prefix = "service_name_";
-      wx.setStorage({
-        key: prefix.concat(config.service),
-        data: JSON.stringify(config),
-        success: success,
-        fail: fail
-      });
+        wx.setStorage({
+            key: this.config_prefix.concat(config.service),
+            data: JSON.stringify(config),
+            success: success,
+            fail: fail
+        });
     }
 
     static load_service(key, success, fail)
     {
-      let prefix = "service_name_";
-      let service_name = prefix.concat(key);
-      console.log("load", service_name)
-      wx.getStorage({
-        key: service_name,
-        success: success,
-        fail: fail
-      })
+        let service_name = this.config_prefix.concat(key);
+        wx.getStorage({
+            key: service_name,
+            success: success,
+            fail: fail
+        })
     }
 
     static remove_service(key, success, fail)
     {
-      let prefix = "service_name_";
-      let service_name = prefix.concat(key);
-      wx.removeStorage({
-        key: service_name,
-        success: success,
-        fail: fail
-      })
+        let service_name = this.config_prefix.concat(key);
+        wx.removeStorage({
+            key: service_name,
+            success: success,
+            fail: fail
+        })
     }
 
     static save_passphrase(passphrase)
@@ -69,4 +68,4 @@ class DataManager {
 
 module.exports = {
     DataManager: DataManager
-  }
+}
