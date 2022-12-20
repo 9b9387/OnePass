@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/onepass/onepass",
-    "pages/import_page/import_page"
+    "pages/import_page/import_page",
+    "pages/help_page/help_page"
   ],
   "window": {
     "backgroundTextStyle": "light",

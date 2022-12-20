@@ -20,6 +20,7 @@ Page({
         showFigerprintDeleteIcon: false,
         showCopyButton: false,
         showImportIcon: false,
+        showVisibleIcon: false,
         topTips: false,
         tips: "",
     },
@@ -40,7 +41,11 @@ Page({
 
         this.original_config = new OnePassConfig()
         this.current_config = new OnePassConfig()
-    },
+	},
+	
+	onShow: function() {
+		this.load_service_list()
+	},
 
     onShareAppMessage: function(res)
     {
@@ -102,7 +107,7 @@ Page({
     },
 
     on_ui_toggle_alpha: function (e) {
-        var isChecked = e.detail.value;
+		var isChecked = e.detail.value;
         this.current_config.include_alpha = isChecked;
 
         this.setData({
@@ -137,12 +142,11 @@ Page({
         })
 
         if(this.service_list.findIndex((item) => {
-            return item.service == this.current_config.service;
+            return item == this.current_config.service;
         }) > -1)
         {
             return;
         }
-
         this.save_service(this.current_config);
     },
 
@@ -198,7 +202,6 @@ Page({
                 self.generatePassword()
             },
             fail(err) {
-                console.log(err)
             }
         })
     },
@@ -221,7 +224,6 @@ Page({
                 self.show_tips("密钥已删除");
             },
             fail(err) {
-                console.log(err)
             }
         })
     },
@@ -232,6 +234,19 @@ Page({
       })
     },
     
+    on_ui_click_visible: function(e)
+    {
+    	this.setData({
+        	showVisibleIcon : !this.data.showVisibleIcon
+      	})
+	},
+	
+	on_ui_click_help: function(e)
+	{
+		wx.navigateTo({
+			url: '../help_page/help_page',
+		  })
+	},
 
     ///////////////////////////////////////////////////
     // Logic
@@ -239,25 +254,24 @@ Page({
     load_service_list() {
         DataManager.load_service_list((keys) => {
             this.service_list = keys;
-            if (keys.length == 0) {
+            if (this.service_list.length == 0) {
                 this.setData({
                     showHistoryIcon: false,
                     showSettingIcon: false,
-                })
+				})
                 return;
             }
             this.update_servce_list();
             this.setData({
                 showHistoryIcon: true,
-                showSettingIcon: false,
-            })
+			})
         }, 
         (err) => {
             console.error("on_load_service_list_fail", err);
             this.setData({
                 showHistoryIcon: false,
                 showSettingIcon: false,
-            })
+			})
         });
         this.setData({
             config: this.current_config
@@ -265,33 +279,30 @@ Page({
     },
 
     save_service(config) {
-      console.log("save service:", config);
-      DataManager.save_service(config, () => {
-            this.original_config.clone(config);
-            this.service_list.push({
-                service: config.service
-            })
-            this.update_servce_list();
-            this.update_setting(config.service);
-            this.show_tips("配置已保存");
-        })
+      	DataManager.save_service(config, () => {
+			this.original_config.clone(config);
+			this.service_list.push(config.service)
+			this.update_servce_list();
+			this.update_setting(config.service);
+			this.show_tips("配置已保存");
+		})
     },
 
     load_service(key) {
         DataManager.load_service(key, (res) => {
-          var config = JSON.parse(res.data);
+		var config = JSON.parse(res.data);
 
-          this.original_config.clone(config)
-          this.current_config.clone(config)
+		this.original_config.clone(config)
+		this.current_config.clone(config)
 
-          this.setData({
-              config: this.original_config,
-              showSettingIcon: true,
-              showHistoryIcon: false,
-              readOnly: true,
-          })
+		this.setData({
+			config: this.original_config,
+			showSettingIcon: true,
+			showHistoryIcon: true,
+			readOnly: true,
+		})
 
-          this.generatePassword();
+		this.generatePassword();
         })
     },
 
@@ -316,16 +327,16 @@ Page({
                 passphrase: this.passphrase,
                 showHistoryIcon: true,
                 showSettingIcon: false
-            })
+			})
+
             this.update_passphrase_icon(this.passphrase)
             this.generatePassword();
             this.show_tips("条目已删除");
         })
     },
-
+ 
     update_servce_list() {
         var service_range = this.service_list;
-
         this.setData({
             serviceRange: service_range,
         })
@@ -350,7 +361,7 @@ Page({
                     showHistoryIcon: false,
                     showOptions: false,
                     readOnly: false,
-                });
+				});
             }
         }
         // 本地数据不为空时 
@@ -359,7 +370,7 @@ Page({
                 this.original_config.reset();
 
                 this.setData({
-                    showSettingIcon: false,
+                    showSettingIcon: true,
                     showHistoryIcon: true,
                     showOptions: false,
                     readOnly: false,
@@ -372,7 +383,7 @@ Page({
             else if (this.check_service_name(service) == SERVICE_STATUS.UNMATCH) {
                 this.setData({
                     showSettingIcon: true,
-                    showHistoryIcon: false,
+                    showHistoryIcon: true,
                     config: this.current_config,
                     readOnly: false,
                     showDeleteConfirm: false
@@ -405,15 +416,15 @@ Page({
                     showFigerprintDeleteIcon: false,
                 })
             }
-            // // 匹配，显示删除按钮
-            // else if(p == passphrase)
-            // {
-            //     this.setData({
-            //         showFigerprintIcon: false,
-            //         showFigerprintSaveIcon: false,
-            //         showFigerprintDeleteIcon: true,
-            //     })
-            // }
+            // 匹配，显示删除按钮
+            else if(p == passphrase)
+            {
+                this.setData({
+                    showFigerprintIcon: false,
+                    showFigerprintSaveIcon: false,
+                    showFigerprintDeleteIcon: true,
+                })
+            }
             // 无匹配，无操作按钮
             else
             {
@@ -485,7 +496,6 @@ Page({
         },
         fail(err)
         {
-            console.log(err)
         }})
     },
 
@@ -530,7 +540,6 @@ Page({
                 showCopyButton: true
             });
         } catch (error) {
-            console.log(error)
         }
     },
 })

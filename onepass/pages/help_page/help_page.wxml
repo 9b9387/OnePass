@@ -1,0 +1,23 @@
+<!--pages/help_page/help_page.wxml-->
+<page-meta root-font-size="system"/>
+<view class="page" data-weui-theme="{{theme}}" data-weui-mode="{{mode}}">
+  <view class="weui-article">
+      <view aria-role="heading" aria-level="4" class="weui-article__h1">关于OnePass</view>
+      <view class="weui-article__section">
+      OnePass是一款密码管理工具，基于vault开源项目开发的微信小程序版本。
+      </view>
+      <view class="weui-article__section">
+      导入/导出数据格式与valut命令行中的配置兼容，可以通过配置的导入/导出功能与电脑端同步配置，另有网页版：
+      </view>
+      <view class="weui-article__section">
+      https://getvau.lt
+      </view>
+      <view class="weui-article__section">
+      所有数据存储在本地，本小程序不上传任何数据。
+      </view>
+      <view class="weui-article__section">
+      作者保留所有解释权。
+      </view>
+  </view>
+</view>
+

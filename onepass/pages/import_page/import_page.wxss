@@ -6,3 +6,13 @@
   display:block;
   background-color:var(--weui-TEXTGREEN)
 }
+
+.weui-toptips-info
+{
+  background-color:var(--weui-TEXTGREEN)
+}
+
+.weui-toptips-warn
+{
+  background-color:var(--weui-RED)
+}

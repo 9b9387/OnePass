@@ -10,7 +10,8 @@ Page({
   data: {
     config_json : "",
     topTips: false,
-    tips: "",
+	tips: "",
+	tipsStyle: "weui-toptips-info"
   },
 
   /**
@@ -18,10 +19,6 @@ Page({
    */
   onLoad(options) {
     this.setData({config_json: ""})
-
-    DataManager.load_service_list((keys)=>{
-      console.log(keys);
-    })
   },
 
   /**
@@ -60,8 +57,8 @@ Page({
       return;
     }
     try {
-      var import_data = JSON.parse(content);
-      console.log(import_data.services);
+	  var import_data = JSON.parse(content);
+	  DataManager.save_passphrase(import_data.global.phrase);
       
       let keys = Object.keys(import_data.services);
       for (let i = 0; i < keys.length; i++) {
@@ -69,19 +66,63 @@ Page({
         const value = import_data.services[key];
         let config = new OnePassConfig();
         config.from(key, value);
-        console.log(config);
         DataManager.save_service(config)
-      }
+	  }
+	  this.show_tips("配置导入成功", "weui-toptips-info");
+
     } catch (error) {
-      console.log(error);
-    }
+	  this.show_tips("配置导入失败", "weui-toptips-warn");
+	}
+	
   },
 
-  show_tips: function(tips) {
-    console.log("show tips");
+  on_ui_click_export: function(e)
+  {
+		var data = {};
+		data.global = {
+			dash: 1,
+			length: 16,
+			lower: 1,
+			number: 1,
+			phrase: DataManager.load_passphrase(),
+			space: 0,
+			symbol: 1,
+			upper: 1
+		}
+
+		data.services = {}
+		DataManager.load_service_list((keys) => {
+		for (let index = 0; index < keys.length; index++) {
+			const key = keys[index];
+			var config = JSON.parse(wx.getStorageSync(DataManager.config_prefix.concat(key)))
+			data.services[key] = {
+				dash: config.include_symbol == true ? 1 : 0,
+				length: config.length,
+				lower: config.include_alpha == true ? 1 : 0,
+				number: config.include_number == true ? 1 : 0,
+				space: 0,
+				symbol: config.include_symbol == true ? 1 : 0,
+				upper: config.include_alpha == true ? 1 : 0
+			}
+		}
+
+		let json_str = JSON.stringify(data);
+		this.setData({
+			config_json: json_str
+		})
+
+        wx.setClipboardData({
+            data: json_str,
+        })
+		this.show_tips("配置已复制至剪切板");
+	});
+  },
+
+  show_tips: function(tips, tipsStyle) {
     this.setData({
         topTips: true,
-        tips: tips
+		tips: tips,
+		tipsStyle: tipsStyle
     });
 
     setTimeout(() => {

@@ -1,26 +1,29 @@
 <!--pages/import_page.wxml-->
+<page-meta root-font-size="system"/>
 <view class="page" data-weui-theme="{{theme}}">
-  <view class="weui-form">
-    <view class="weui-form__text-area">
-      <view class="weui-form__title">导入配置数据</view>
-    </view>
-    <form bindsubmit="on_ui_submit">
-    <view class="weui-form__control-area">
-      <view class="weui-cells__group weui-cells__group_form">
-        <view class="weui-cells weui-cells_form">
-            <view class="weui-cell weui-cell_active">
-                <view class="weui-cell__bd">
-                    <textarea class="weui-textarea" name="config_content" placeholder="" maxlength="-1" value=
-                    "{{config_json}}"></textarea>
-                </view>
-            </view>
-        </view>
-      </view>
-    </view>
-    <view class="weui-form__opr-area">
-      <button class="weui-btn weui-btn_primary" form-type="submit">导入</button>
-    </view>
-    </form>
-  </view>
-  <view wx:if="{{topTips}}" class="weui-toptips weui-toptips_warn">{{tips}}</view>
+	<view class="weui-form">
+		<view class="weui-form__text-area">
+			<view class="weui-form__title">导入配置</view>
+		</view>
+		<form bindsubmit="on_ui_submit">
+			<view class="weui-form__control-area">
+				<view class="weui-cells__group weui-cells__group_form">
+					<view class="weui-cells weui-cells_form">
+						<view class="weui-cell weui-cell_active">
+							<view class="weui-cell__bd">
+								<textarea class="weui-textarea" name="config_content" placeholder="" maxlength="-1" value=
+							"{{config_json}}" style="height: 300px;"></textarea>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="weui-form__opr-area">
+				<button class="weui-btn weui-btn_primary" form-type="submit">导入</button>
+				<button class="weui-btn weui-btn_primary" bindtap="on_ui_click_export">导出</button>
+			</view>
+		</form>
+	</view>
+	
+	<view wx:if="{{topTips}}" class="weui-toptips {{tipsStyle}}" >{{tips}}</view>
 </view>

@@ -1,12 +1,14 @@
-<!--index.wxml-->
+<!--onepass.wxml-->
+<page-meta root-font-size="system"/>
 <view class="page" data-weui-theme="{{theme}}">
 
 	<view class="weui-form">
 		<view class="weui-form__text-area">
-			<h2 class="weui-form__title" bindtap="on_ui_click_title">OnePass</h2>
-      <view class="weui-cell__ft" hidden="{{!showImportIcon}}" >
-        <image src="./images/round_import_export_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_import"></image>
-      </view>
+			<h1 class="weui-form__title" style="font-size: 36px; color: dimgrey;" bindtap="on_ui_click_title">OnePass</h1>
+			<view style="display: flex; flex-flow:row; justify-content: flex-end; height: 30px;" >
+				<image hidden="{{!showImportIcon}}" src="./images/round_import_export_black_24dp.png" style="width: 24px; height: 24px; padding: 4px 15px 4px 78px;" bindtap="on_ui_click_import"></image>
+				<image hidden="{{!showImportIcon}}" src="./images/outline_help_outline_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_help"></image>
+			</view>
 		</view>
 
 		<view class="weui-form__control-area">
@@ -21,17 +23,17 @@
 						<view class="weui-cell__bd">
 							<input class="weui-input" type="text" placeholder="" value="{{config.service}}" placeholder-class="weui-input__placeholder" bindconfirm="on_ui_service_change" bindinput="on_ui_service_change" bindblur="on_ui_service_change"/>
 						</view>
-
+						<!-- 设置按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showSettingIcon}}">
+							<image src="./images/round_tune_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_setting"></image>
+						</view>
 						<!-- 历史按钮 -->
 						<view class="weui-cell__ft" hidden="{{!showHistoryIcon}}">
 							<picker bindchange="on_ui_select_service" range="{{serviceRange}}">
 								<image src="./images/round_history_black_24dp.png" style="width: 24px; height: 24px;"></image>
 							</picker>
 						</view>
-						<!-- 设置按钮 -->
-						<view class="weui-cell__ft" hidden="{{!showSettingIcon}}">
-							<image src="./images/round_tune_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_setting"></image>
-						</view>
+
 					</view>
 
 					<view hidden="{{!showOptions}}">
@@ -106,7 +108,7 @@
 					<view class="weui-cell ">
 						<view class="weui-cell__hd"><label class="weui-label" style="width: 45px;">密钥</label></view>
 						<view class="weui-cell__bd">
-							<input class="weui-input" type="text" placeholder="" value="{{passphrase}}" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" bindblur="on_ui_passphrase_change"/>
+							<input class="weui-input" password="{{!showVisibleIcon}}" type="text" placeholder="" value="{{passphrase}}" placeholder-class="weui-input__placeholder" bindinput="on_ui_passphrase_change" bindblur="on_ui_passphrase_change"/>
 						</view>
 						<!-- 保存按钮 -->
 						<view class="weui-cell__ft" hidden="{{!showFigerprintSaveIcon}}">
@@ -119,6 +121,14 @@
 						<!-- 删除按钮 -->
 						<view class="weui-cell__ft" hidden="{{!showFigerprintDeleteIcon}}">
 							<image src="./images/round_delete_forever_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_delete_figerprint"></image>
+						</view>
+            <!-- 可见按钮 -->
+						<view class="weui-cell__ft" hidden="{{showVisibleIcon}}">
+							<image src="./images/outline_visibility_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_visible"></image>
+						</view>
+            <!-- 不可见按钮 -->
+						<view class="weui-cell__ft" hidden="{{!showVisibleIcon}}">
+							<image src="./images/outline_visibility_off_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_visible"></image>
 						</view>
 					</view>
 				

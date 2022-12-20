@@ -51,9 +51,9 @@ class OnePassConfig {
     {
       this.service = key
       this.length = obj.length
-      this.include_alpha = obj.lower || obj.upper
+      this.include_alpha = obj.lower == 1 || obj.upper == 1
       this.include_number = obj.number == 1
-      this.include_symbol = obj.symbol || obj.dash
+      this.include_symbol = obj.symbol == 1 || obj.dash == 1
     }
 }
 
