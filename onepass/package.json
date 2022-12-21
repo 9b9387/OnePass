@@ -1,6 +1,6 @@
 {
   "name": "onepass",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "password generator",
   "main": "app.js",
   "scripts": {
@@ -21,6 +21,6 @@
   "homepage": "https://github.com/9b9387/OnePass#readme",
   "dependencies": {
     "crypto-js": "^4.0.0",
-    "weui-miniprogram": "^2.5.14"
+    "weui-miniprogram": "^1.2"
   }
 }

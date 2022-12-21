@@ -30,14 +30,10 @@ class DataManager {
         });
     }
 
-    static load_service(key, success, fail)
+    static load_service(key)
     {
         let service_name = this.config_prefix.concat(key);
-        wx.getStorage({
-            key: service_name,
-            success: success,
-            fail: fail
-        })
+        return wx.getStorageSync(service_name);
     }
 
     static remove_service(key, success, fail)

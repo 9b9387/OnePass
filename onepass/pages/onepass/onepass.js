@@ -23,6 +23,7 @@ Page({
         showVisibleIcon: false,
         topTips: false,
         tips: "",
+        showVisibleIcon2: false,
     },
 
     supportFigerprint: false,
@@ -44,7 +45,8 @@ Page({
 	},
 	
 	onShow: function() {
-		this.load_service_list()
+    this.load_service_list()
+    this.update_passphrase_icon(this.passphrase)
 	},
 
     onShareAppMessage: function(res)
@@ -78,8 +80,47 @@ Page({
     on_ui_select_service(e) {
         var index = e.detail.value;
         var config = this.service_list[index];
+		console.log(this.current_config.service)
+		this.load_service(config);
+		let phrase = DataManager.load_passphrase();
+		if(this.passphrase == "" && phrase != "" && phrase != null)
+		{
+			var self = this
+			wx.startSoterAuthentication({
+				requestAuthModes: ['fingerPrint'],
+				challenge: '123456',
+				authContent: '使用指纹读取本地密钥',
+				success(res) {
+					var p = DataManager.load_passphrase()
+					self.passphrase = p;
+					self.update_passphrase_icon(self.passphrase);
+					self.setData({
+						passphrase: self.passphrase,
+						showFigerprintDeleteIcon: true,
+					})
+					self.generatePassword()
 
-        this.load_service(config);
+					wx.setClipboardData({
+						data: self.password,
+					})
+				},
+				fail(err) {
+				}
+			})
+		}
+		else if(phrase == this.passphrase)
+		{
+			console.log(phrase, this.current_config.service)
+			this.generatePassword()
+
+			wx.setClipboardData({
+				data: this.password,
+			})
+		}
+		else
+		{
+			this.generatePassword();
+		}
     },
 
     on_ui_service_change(e) {
@@ -246,7 +287,42 @@ Page({
 		wx.navigateTo({
 			url: '../help_page/help_page',
 		  })
-	},
+  },
+  
+  on_ui_click_cli: function(e)
+  {
+    let code = "vault " 
+    + this.current_config.service + " -c --space 0 "
+    + " --length " + this.current_config.length + " "
+    if(this.current_config.include_alpha)
+    {
+      code += "--lower 1 --upper 1 ";
+    }
+    else
+    {
+      code += "--lower 0 --upper 0 ";
+    }
+    if(this.current_config.include_number)
+    {
+      code += "--number 1 "
+    }
+    else
+    {
+      code += "--number 0 "
+    }
+
+    if(this.current_config.include_symbol)
+    {
+      code += "--dash 1 --symbol 1 "
+    }
+    else
+    {
+      code += "--dash 0 --symbol 0 "
+    } 
+    wx.setClipboardData({
+      data: code,
+    })
+  },
 
     ///////////////////////////////////////////////////
     // Logic
@@ -289,8 +365,8 @@ Page({
     },
 
     load_service(key) {
-        DataManager.load_service(key, (res) => {
-		var config = JSON.parse(res.data);
+		let res = DataManager.load_service(key);
+ 		var config = JSON.parse(res);
 
 		this.original_config.clone(config)
 		this.current_config.clone(config)
@@ -303,7 +379,6 @@ Page({
 		})
 
 		this.generatePassword();
-        })
     },
 
     remove_service(service) {
@@ -326,7 +401,7 @@ Page({
                 showDeleteConfirm: false,
                 passphrase: this.passphrase,
                 showHistoryIcon: true,
-                showSettingIcon: false
+                showSettingIcon: false,
 			})
 
             this.update_passphrase_icon(this.passphrase)
@@ -334,7 +409,7 @@ Page({
             this.show_tips("条目已删除");
         })
     },
- 
+    
     update_servce_list() {
         var service_range = this.service_list;
         this.setData({
@@ -370,7 +445,7 @@ Page({
                 this.original_config.reset();
 
                 this.setData({
-                    showSettingIcon: true,
+                    showSettingIcon: false,
                     showHistoryIcon: true,
                     showOptions: false,
                     readOnly: false,
@@ -413,7 +488,8 @@ Page({
                 this.setData({
                     showFigerprintIcon: true,
                     showFigerprintSaveIcon: false,
-                    showFigerprintDeleteIcon: false,
+                    showFigerprintDeleteIcon: true,
+                    showVisibleIcon2: false,
                 })
             }
             // 匹配，显示删除按钮
@@ -423,15 +499,17 @@ Page({
                     showFigerprintIcon: false,
                     showFigerprintSaveIcon: false,
                     showFigerprintDeleteIcon: true,
+                    showVisibleIcon2: true,
                 })
             }
             // 无匹配，无操作按钮
             else
             {
                 this.setData({
-                    showFigerprintIcon: false,
+                    showFigerprintIcon: true,
                     showFigerprintSaveIcon: false,
-                    showFigerprintDeleteIcon: false,
+                    showFigerprintDeleteIcon: true,
+                    showVisibleIcon2: true,
                 })
             }
         }
@@ -445,6 +523,7 @@ Page({
                     showFigerprintIcon: false,
                     showFigerprintSaveIcon: false,
                     showFigerprintDeleteIcon: false,
+                    showVisibleIcon2: false,
                 })
             }
             // 输入，显示保存按钮
@@ -454,6 +533,7 @@ Page({
                     showFigerprintIcon: false,
                     showFigerprintSaveIcon: true,
                     showFigerprintDeleteIcon: false,
+                    showVisibleIcon2: true,
                 })
             }
         }
@@ -514,7 +594,8 @@ Page({
     },
 
     generatePassword: function () {
-        if (this.passphrase == "" || this.current_config.service == "") {
+        if (this.passphrase == "" || this.current_config.service == "" 
+        || (this.current_config.include_symbol == false && this.current_config.include_alpha == false && this.current_config.include_number == false)) {
             this.password = ""
             this.setData({
                 password: this.password,

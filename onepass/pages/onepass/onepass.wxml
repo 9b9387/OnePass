@@ -1,12 +1,12 @@
 <!--onepass.wxml-->
 <page-meta root-font-size="system"/>
 <view class="page" data-weui-theme="{{theme}}">
-
 	<view class="weui-form">
 		<view class="weui-form__text-area">
-			<h1 class="weui-form__title" style="font-size: 36px; color: dimgrey;" bindtap="on_ui_click_title">OnePass</h1>
-			<view style="display: flex; flex-flow:row; justify-content: flex-end; height: 30px;" >
-				<image hidden="{{!showImportIcon}}" src="./images/round_import_export_black_24dp.png" style="width: 24px; height: 24px; padding: 4px 15px 4px 78px;" bindtap="on_ui_click_import"></image>
+			<h1 class="weui-form__title" style="font-size: 36px; color:burlywood;" bindtap="on_ui_click_title">OnePass</h1>
+			<view style="display: flex; flex-flow:row; justify-content: flex-end; height: 30px; margin-top: 10px;" >
+				<image hidden="{{!showImportIcon}}" src="./images/round_import_export_black_24dp.png" style="width: 24px; height: 24px; margin-right: 15px;" bindtap="on_ui_click_import"></image>
+        <image wx:if="{{showImportIcon && showFigerprintDeleteIcon}}" src="./images/round_delete_forever_black_24dp.png" style="width: 24px; height: 24px; margin-right: 15px;" bindtap="on_ui_click_delete_figerprint"></image>
 				<image hidden="{{!showImportIcon}}" src="./images/outline_help_outline_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_help"></image>
 			</view>
 		</view>
@@ -76,10 +76,12 @@
 							</view>
 						</view>
 						<!-- 删除按钮 -->
-						<view class="setting_cell" hidden="{{!readOnly || showDeleteConfirm }}">
-							<view class="setting_cell__hd">
-							</view>
+						<view class="setting_cell" wx:if="{{!showDeleteConfirm && readOnly}}" style="display: flex; justify-content: flex-end;">
 
+							<view class="setting_cel__ft">
+								<a class="weui-btn weui-btn_mini weui-btn_primary"  style="vertical-align: middle; margin-right: 20px;" bindtap="on_ui_click_cli">同步CLI</a>
+							</view>
+              
 							<view class="setting_cel__ft">
 								<a class="weui-btn weui-btn_mini weui-btn_warn" style="vertical-align: middle;" bindtap="on_ui_click_delete">
 									删除 {{config.service}} 
@@ -118,16 +120,12 @@
 						<view class="weui-cell__ft" hidden="{{!showFigerprintIcon}}">
 							<image src="./images/outline_fingerprint_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_figerprint"></image>
 						</view>
-						<!-- 删除按钮 -->
-						<view class="weui-cell__ft" hidden="{{!showFigerprintDeleteIcon}}">
-							<image src="./images/round_delete_forever_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_delete_figerprint"></image>
-						</view>
             <!-- 可见按钮 -->
-						<view class="weui-cell__ft" hidden="{{showVisibleIcon}}">
+						<view class="weui-cell__ft" wx:if="{{showVisibleIcon2}}" hidden="{{showVisibleIcon}}">
 							<image src="./images/outline_visibility_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_visible"></image>
 						</view>
             <!-- 不可见按钮 -->
-						<view class="weui-cell__ft" hidden="{{!showVisibleIcon}}">
+						<view class="weui-cell__ft" wx:if="{{showVisibleIcon2}}" hidden="{{!showVisibleIcon}}">
 							<image src="./images/outline_visibility_off_black_24dp.png" style="width: 24px; height: 24px;" bindtap="on_ui_click_visible"></image>
 						</view>
 					</view>
@@ -144,7 +142,7 @@
 
 		<!-- 复制按钮 -->
 		<view class="weui-form__opr-area" hidden="{{!showCopyButton}}">
-			<a class="weui-btn weui-btn_primary" bindtap="on_ui_click_copy">复制密码</a>
+			<a class="weui-btn weui-btn_primary" bindtap="on_ui_click_copy">{{readOnly ? "复制密码" : "复制并保存密码"}}</a>
 		</view>
 	</view>
 

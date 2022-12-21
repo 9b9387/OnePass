@@ -3,7 +3,7 @@
 <view class="page" data-weui-theme="{{theme}}">
 	<view class="weui-form">
 		<view class="weui-form__text-area">
-			<view class="weui-form__title">导入配置</view>
+			<view class="weui-form__title">导入/导出配置</view>
 		</view>
 		<form bindsubmit="on_ui_submit">
 			<view class="weui-form__control-area">
